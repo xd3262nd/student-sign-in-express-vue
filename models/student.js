@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
 
         starID: {
             type: DataTypes.STRING,
-            allNull: false,
+            allowNull: false,
             unique: true
         },
 

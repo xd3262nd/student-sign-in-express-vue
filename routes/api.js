@@ -12,10 +12,11 @@ let router = express.Router()
 //get a request from students, that will cause request, respond, and next function to run 
 router.get('/students', function(req, res, next){
     //student object
-    Student.findAll( { order: ['name'] }  ).then( students => {
+    Student.findAll( { order: ['starID'] }  ).then( students => {
         // response is the array of student
         return res.json(students)
     })
+    .catch(  err => next(err))
 })
 
 //create POST request
@@ -27,7 +28,7 @@ router.post('/students', function(req, res, next){
         //and send the message
         return res.status(201).send('created!')
          
-    } ).catch ( err => {
+    }).catch ( err => {
         if (err instanceof Sequelize.ValidationError){
             let messages = err.errors.map( e => e.message )
             //400 status = bad request from user
@@ -39,12 +40,8 @@ router.post('/students', function(req, res, next){
 
 router.patch('/students/:id', function(req, res, next){   
     // Update or Modify student
-    Student.update(
-        req.body, { 
-            where: {
-                id: req.params.id
-            }
-    }).then( rowsModified => {
+    Student.update(req.body, { where: {id: req.params.id}})
+        .then( rowsModified => {
         if (!rowsModified[0]) {
             return res.status(404).send('Not found')               
         } else {

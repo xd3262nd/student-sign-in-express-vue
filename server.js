@@ -3,10 +3,16 @@ let express =  require('express')
 
 //connect api.js to this server.js
 let bodyParser = require('body-parser')
+let path = require('path')
+
 let api_routes = require('./routes/api.js')
 
 
 let app = express()
+
+
+app.use(express.static(path.join(__dirname, 'student-sign-in-client', 'dist')))
+
 
 //tell the app to use body-parser
 //convert data sent as part of API request into JSON to be used in the app
